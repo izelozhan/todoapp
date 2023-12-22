@@ -1,0 +1,39 @@
+<div class="flex justify-center mt-12">
+     <div class="w-6/12">
+          <h1 class="flex justify-center text-4xl font-medium mb-5">To-Do List</h1>
+          <div class="p-2">
+               <div class="flex w-full gap-2 mb-4">
+                    <input class="w-full my-input" matInput #input type="text" (keyup.enter)="addItem(input.value)">
+                    <div>
+                         <button mat-stroked-button color="primary" (click)="addItem(input.value); input.value=''"
+                              type="button">Ekle</button>
+                    </div>
+               </div>
+               <mat-card *ngIf="items && (items | async)!.length > 0" appearance="outline" class="my-card">
+                    <mat-list [style.padding.px]="0">
+                         <mat-list-item *ngFor="let item of items | async; let i = index">
+                              <div class="flex justify-between w-full">
+                                   <div class="pt-1">
+                                        <mat-checkbox (change)="setSelected($event, i)">
+                                             <span [className]="isSelected(i) ? 'dashed' : ''">{{item.name}}</span>
+                                        </mat-checkbox>
+                                   </div>
+                                   <div>
+                                        <button class="submit-button" type="button" mat-raised-button color="warn"
+                                             (click)="removeItem(i)">X</button>
+                                   </div>
+                              </div>
+                         </mat-list-item>
+                    </mat-list>
+               </mat-card>
+          </div>
+
+     </div>
+</div>
+
+<ng-template #notFoundTemplate>
+     <mat-dialog-content>
+          Not found.
+          <button>Close</button>
+     </mat-dialog-content>
+</ng-template>
